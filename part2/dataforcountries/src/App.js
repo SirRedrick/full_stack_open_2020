@@ -18,11 +18,15 @@ const App = () => {
 		setFiltered(countries.filter((country) => country.name.toUpperCase().includes(filter.toUpperCase())));
 	};
 
+	const handleClick = (country) => {
+		setFiltered([country]);
+	};
+
 	if (filtered.length < 10 && filter.length >= 1) {
 		return (
 			<div>
 				<Filter value={filter} onChange={handleFilter} />
-				{filtered.length === 1 ? <Country country={filtered[0]} /> : <List filtered={filtered} />}
+				{filtered.length === 1 ? <Country country={filtered[0]} /> : <List filtered={filtered} onClick={handleClick} />}
 			</div>
 		);
 	}
