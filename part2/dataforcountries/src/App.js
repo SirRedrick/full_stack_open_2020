@@ -8,10 +8,21 @@ const App = () => {
 	const [countries, setCountries] = useState([]);
 	const [filter, setFilter] = useState('');
 	const [filtered, setFiltered] = useState([]);
+	const [weather, setWeather] = useState(null);
 
 	useEffect(() => {
 		axios.get('https://restcountries.eu/rest/v2/all').then((res) => setCountries(res.data));
 	}, []);
+
+	useEffect(() => {
+		if (filtered.length === 1) {
+			axios
+				.get(
+					`http://api.weatherstack.com/current?access_key=${process.env.REACT_APP_WEATHER_API_KEY}&query=${filtered[0].capital}`
+				)
+				.then((res) => setWeather(res.data));
+		}
+	}, [filtered]);
 
 	const handleFilter = (event) => {
 		setFilter(event.target.value);
@@ -26,7 +37,11 @@ const App = () => {
 		return (
 			<div>
 				<Filter value={filter} onChange={handleFilter} />
-				{filtered.length === 1 ? <Country country={filtered[0]} /> : <List filtered={filtered} onClick={handleClick} />}
+				{filtered.length === 1 ? (
+					<Country country={filtered[0]} weather={weather} />
+				) : (
+					<List filtered={filtered} onClick={handleClick} />
+				)}
 			</div>
 		);
 	}
