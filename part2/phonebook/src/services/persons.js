@@ -12,6 +12,9 @@ const personsService = {
 	delete(id) {
 		return axios.delete(`${baseUrl}/${id}`);
 	},
+	update(id, newPerson) {
+		return axios.put(`${baseUrl}/${id}`, newPerson);
+	},
 };
 
 export default personsService;
