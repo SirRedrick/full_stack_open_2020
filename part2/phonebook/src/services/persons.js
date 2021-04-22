@@ -9,6 +9,9 @@ const personsService = {
 	create(newPerson) {
 		return axios.post(baseUrl, newPerson);
 	},
+	delete(id) {
+		return axios.delete(`${baseUrl}/${id}`);
+	},
 };
 
 export default personsService;
